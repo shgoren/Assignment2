@@ -37,6 +37,11 @@ public class DHeap
      * 				  size = array.length()
      * Returns number of comparisons along the function run. 
 	 */
+	/**
+	 * count items in array1
+	 * copy items from array1 to the new array
+	 * heapify down starting from father of array[size] in the array 
+	*/
     public int arrayToHeap(DHeap_Item[] array1) 
     {
         return 0; // just for illustration - should be replaced by student code
@@ -49,6 +54,8 @@ public class DHeap
      * satisfies the heap property or has size == 0.
      *   
      */
+    // loop over array and check if parent<= this heapItem
+    // root has no parent
     public boolean isHeap() 
     {
         return false; // just for illustration - should be replaced by student code
@@ -62,10 +69,12 @@ public class DHeap
      * precondition: i >= 0, d >= 2, 1 <= k <= d
      *
      * The methods compute the index of the parent and the k-th child of 
-     * vertex i in a complete D-ary tree stored in an array. 
+     * vertex i in a complete D-ary tree stored in an array.
      * Note that indices of arrays in Java start from 0.
      */
+    // floor(i/d)
     public static int parent(int i, int d) { return 999;} // just for illustration - should be replaced by student code
+    // i*d+k (kids between 1 to d)
     public static int child (int i, int k, int d) { return 999;} // just for illustration - should be replaced by student code 
 
     /**
@@ -80,6 +89,10 @@ public class DHeap
     * 
     * postcondition: isHeap()
     */
+    // insert in place array[size]
+    // set item.pos
+    // heapifyUp(item)
+    // return number of comp
     public int Insert(DHeap_Item item) 
     {        
     	return 0;// should be replaced by student code
@@ -96,6 +109,7 @@ public class DHeap
     * 
     * postcondition: isHeap()
     */
+    // delete(array[0])
     public int Delete_Min()
     {
      	return 0;// should be replaced by student code
@@ -113,6 +127,7 @@ public class DHeap
      * 
      * postcondition: isHeap()
      */
+    // return array[0]
     public DHeap_Item Get_Min()
     {
 	return null;// should be replaced by student code
@@ -130,6 +145,8 @@ public class DHeap
      * 
      * postcondition: isHeap()
      */
+    // set key
+    // heapifyUp(item)
     public int Decrease_Key(DHeap_Item item, int delta)
     {
 	return 0;// should be replaced by student code
@@ -147,6 +164,12 @@ public class DHeap
      * 
      * postcondition: isHeap()
      */
+    // set array[item.pos] to array[size]
+    // update pos to new pos in replaced item
+    // set pos in deleted item to -1 (for safety)
+    // nullify array[size]
+    // size--
+    // heapify down
     public int Delete(DHeap_Item item)
     {
 	return 0;// should be replaced by student code
@@ -161,7 +184,36 @@ public class DHeap
 	* 
 	* postcondition: array1 is sorted 
 	*/
+    
 	public static int DHeapSort(int[] array1, int d) {
 		return 0;
+	}
+	
+	/**
+	 * 
+	 */
+	private int heapifyUp(DHeap_Item item) {
+		return 0;
+	}
+
+	/**
+	 * move down and check if sons are smaller
+	 */
+	private int heapifyDown(DHeap_Item item) {
+		return 0;
+	}
+
+	/**
+	 * switch place in array and set pos accordingly
+	 */
+	private void switchItems(DHeap_Item item1, DHeap_Item item2) {
+		
+	}
+
+	/**
+	 * loop over sons to find minimal
+	 */
+	private DHeap_Item getMinSon(DHeap_Item dad) {
+		return null;
 	}
 }
