@@ -62,7 +62,7 @@ public class DHeap
     }
 
 
- /**
+    /**
      * public static int parent(i,d), child(i,k,d)
      * (2 methods)
      *
@@ -79,7 +79,7 @@ public class DHeap
 
     /**
     * public int Insert(DHeap_Item item)
-    *
+    * 
 	* Inserts the given item to the heap.
 	* Returns number of comparisons during the insertion.
 	*
@@ -164,12 +164,11 @@ public class DHeap
      * 
      * postcondition: isHeap()
      */
-    // set array[item.pos] to array[size]
-    // update pos to new pos in replaced item
-    // set pos in deleted item to -1 (for safety)
+    // switch between item and array[size]
     // nullify array[size]
+    // set pos in deleted item to -1 (for safety)
     // size--
-    // heapify down
+    // heapifyDown(newItem)
     public int Delete(DHeap_Item item)
     {
 	return 0;// should be replaced by student code
@@ -190,14 +189,18 @@ public class DHeap
 	}
 	
 	/**
-	 * 
+	 * compare with parent (if exists)
+	 * if needed switch places
+	 * heapifyUp(parent)
 	 */
 	private int heapifyUp(DHeap_Item item) {
 		return 0;
 	}
 
 	/**
-	 * move down and check if sons are smaller
+	 * getMinSon(item)
+	 * if needed switch places
+	 * heapifyDown(minSon)
 	 */
 	private int heapifyDown(DHeap_Item item) {
 		return 0;
@@ -211,9 +214,25 @@ public class DHeap
 	}
 
 	/**
-	 * loop over sons to find minimal
+	 * loop over sons to find minimal using getItemChild(dad,k)
 	 */
 	private DHeap_Item getMinSon(DHeap_Item dad) {
+		return null;
+	}
+
+	/**
+	 * use item pos and d of array with child(i,k,d)
+	 * return the appropriate item
+	 */
+	private DHeap_Item getItemChild(DHeap_Item item, int k) {
+		return null;
+	}
+
+	/**
+	 * use item pos and d of array with parent(i,d)
+	 * return the appropriate item
+	 */
+	private DHeap_Item getItemParent(DHeap_Item item, int k) {
 		return null;
 	}
 }
