@@ -6,7 +6,7 @@ public class DHeap_Item {
 		private int  key ;
 		private int  pos ; // Position in the heap (if inserted into a heap.)
 
-		DHeap_Item(String name1,int key1)
+		public DHeap_Item(String name1,int key1)
 		{
 			name = name1 ;
 			key  = key1 ;
@@ -37,5 +37,10 @@ public class DHeap_Item {
 		public int getPos()
 		{
 			return pos;
+		}
+		
+		@Override
+		public String toString() {
+		return "Key= "+key+" ; Name= "+name+" ; Pos= "+pos;
 		}
 }
