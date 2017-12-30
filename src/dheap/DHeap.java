@@ -240,7 +240,15 @@ public class DHeap
 	 * switch place in array and set pos accordingly
 	 */
 	public void switchItems(DHeap_Item item1, DHeap_Item item2) {
-		
+		int origPosItem1 = item1.getPos(),
+			origPosItem2 = item2.getPos();
+		setPosition(item1, origPosItem2);
+		setPosition(item2, origPosItem1);	
+	}
+	
+	private void setPosition(DHeap_Item item, int newPos) {
+		array[newPos] = item;
+		item.setPos(newPos);
 	}
 
 	/**
