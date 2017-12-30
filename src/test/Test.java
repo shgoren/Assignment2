@@ -1,14 +1,36 @@
 package test;
 
-import dheap.DHeap_Item;
 import dheap.DHeap;
+import dheap.DHeap_Item;
 
 public class Test {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		DHeap heap = DHeap.constructTestHeap();
-		DHeap_Item item = heap.Get_Min();
+		DHeap heap = DHeap.constructBadHeap();
+		System.out.println(heap.toString());
+		System.out.println(heap.getItemParent(heap.getItem(heap.getSize()-1)).getKey());
+		heap.isHeap();
+		heap.arrayToHeap(heap.getArray());
+		System.out.println(heap.toString());
+		heap.isHeap();
+		
+		/**DHeap_Item item = heap.Get_Min();
+		System.out.println(heap.Delete_Min());
+		heap.Delete(heap.getItem(7));
+		heap.Insert(new DHeap_Item("a",7));
+		System.out.println(heap.toString());
+		heap.isHeap();
+		heap.getItem(8).setKey(200);
+		heap.isHeap();
+		heap.Decrease_Key(heap.getItem(8),200);
+		
+		heap.Insert(new DHeap_Item("a",0));
+		heap.Insert(new DHeap_Item("a",0));
+		heap.Insert(new DHeap_Item("a",0));
+		System.out.println(heap.toString());
+		System.out.println(heap.isHeap());
+		
+		
 		
 		/** check get item child and parent
 		 * 

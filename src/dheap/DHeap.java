@@ -26,9 +26,9 @@ public class DHeap
     
     //*****************method for testing only!! delete after done********
     public static DHeap constructTestHeap() {
-		DHeap_Item[] heapArr = new DHeap_Item[1000];
+		DHeap_Item[] heapArr = new DHeap_Item[100];
 		Arrays.fill(heapArr, null);
-		DHeap newHeap = new DHeap(3, 1000);
+		DHeap newHeap = new DHeap(3, 100);
 		int numOfItemsToInsert = 42; //4 full levels
 		
 		for(int i=0; i<numOfItemsToInsert; i++) {
@@ -39,13 +39,46 @@ public class DHeap
 		newHeap.size = numOfItemsToInsert;
 	return newHeap;
 }
+    
+    //*****************method for testing only!! delete after done********
+    public DHeap_Item[] getArray() {
+    	return this.array;
+    }
+    
+    
+    public static DHeap constructBadHeap() {
+		DHeap_Item[] heapArr = new DHeap_Item[42];
+		Arrays.fill(heapArr, null);
+		DHeap newHeap = new DHeap(3, 42);
+		int numOfItemsToInsert = 42; //4 full levels
+		
+		for(int i=0; i<numOfItemsToInsert; i++) {
+			heapArr[i] = new DHeap_Item("a",100-i);
+			heapArr[i].setPos(i);
+		}
+		newHeap.array = heapArr;
+		newHeap.size = numOfItemsToInsert-1;
+	return newHeap;
+}
 
     //*****************method for testing only!! delete after done********
     public DHeap_Item getItem(int i) {
     	return array[i];
     }
     
-    
+ 
+    //*****************method for testing only!! delete after done********
+    public String toString(){
+    	String ans = "";
+    	for(DHeap_Item item : this.array) {
+    		if(item==null)
+    			ans+="x ";
+    		else {
+    			ans=ans+item.getKey()+" ";
+    		}
+    	}
+    	return ans;
+    }
     
 	
 	/**
@@ -69,11 +102,22 @@ public class DHeap
 	/**
 	 * count items in array1
 	 * copy items from array1 to the new array
-	 * heapify down starting from father of array[size] in the array 
+	 * heapify down starting from father of array[size-1] in the array 
+	 * assumptions - array1 has no nulls (size = array1.length). don't know if maxSize should be changed if.
 	*/
-    public int arrayToHeap(DHeap_Item[] array1) 
-    {
-        return 0; // just for illustration - should be replaced by student code
+    public int arrayToHeap(DHeap_Item[] array1) {
+    	int ans = 0;
+    	this.array = array1;
+    	this.size = array1.length;
+    	DHeap_Item startingItem = getItemParent(this.getItem(size-1));
+    	int i = startingItem.getPos();
+    	while(i>=0) {
+    		ans+= heapifyDown(this.getItem(i));
+    		i--;
+    	}
+    	
+    	
+        return ans; 
     }
 
     /**
@@ -85,9 +129,18 @@ public class DHeap
      */
     // loop over array and check if parent<= this heapItem
     // root has no parent
-    public boolean isHeap() 
-    {
-        return false; // just for illustration - should be replaced by student code
+    public boolean isHeap() {
+    	if(this.size<2)
+    		return true;
+    	for(int i=1;i<this.size;i++) {
+    		DHeap_Item curr = this.getItem(i);
+    		DHeap_Item currDad = getItemParent(curr);
+    		System.out.println(i);
+    		if(curr.getKey()<currDad.getKey()) {
+    			System.out.println("dad - " + currDad.getKey() + " son - " + curr.getKey());
+    			return false;}
+    	}
+        return true; 
     }
 
 
@@ -102,10 +155,12 @@ public class DHeap
      * Note that indices of arrays in Java start from 0.
      */
     // floor(i/d)
-    public static int parent(int i, int d) { return i/d;} // just for illustration - should be replaced by student code
-    // i*d+k (kids between 1 to d)
-    public static int child (int i, int k, int d) { return i*d+k;} // just for illustration - should be replaced by student code 
-
+    public static int parent(int i, int d) {
+    	if(i==0)
+    		return 0;
+    	return (i-1)/d;
+    	} 
+    public static int child (int i, int k, int d) { return i*d+k;} 
     /**
     * public int Insert(DHeap_Item item)
     * 
@@ -122,9 +177,11 @@ public class DHeap
     // set item.pos
     // heapifyUp(item)
     // return number of comp
-    public int Insert(DHeap_Item item) 
-    {        
-    	return 0;// should be replaced by student code
+    public int Insert(DHeap_Item item)  { 
+    	this.array[this.size]=item;
+    	item.setPos(size);
+    	this.size++;
+    	return heapifyUp(item);
     }
 
  /**
@@ -139,9 +196,8 @@ public class DHeap
     * postcondition: isHeap()
     */
     // delete(array[0])
-    public int Delete_Min()
-    {
-     	return 0;// should be replaced by student code
+    public int Delete_Min()   {
+    	return Delete(this.Get_Min());
     }
 
 
@@ -176,9 +232,10 @@ public class DHeap
      */
     // set key
     // heapifyUp(item)
-    public int Decrease_Key(DHeap_Item item, int delta)
-    {
-	return 0;// should be replaced by student code
+    public int Decrease_Key(DHeap_Item item, int delta)    {
+    	int newKey = item.getKey() - delta;
+    	item.setKey(newKey);
+	return heapifyUp(item);
     }
 	
 	  /**
@@ -198,9 +255,19 @@ public class DHeap
     // set pos in deleted item to -1 (for safety)
     // size--
     // heapifyDown(newItem)
-    public int Delete(DHeap_Item item)
-    {
-	return 0;// should be replaced by student code
+    public int Delete(DHeap_Item item)  {
+    	int pos = item.getPos();
+    	switchItems(item,array[size-1]);
+    	remove(array[size-1]);
+    	this.size--;
+    	int ans = heapifyDown(array[pos]);
+	return ans;
+    }
+    
+    public void remove(DHeap_Item item) {
+    	int pos = item.getPos();
+    	this.array[pos]=null;
+    	item.setPos(-1);
     }
 	
 	/**
@@ -223,8 +290,14 @@ public class DHeap
 	 * heapifyUp(parent)
 	 */
 	public int heapifyUp(DHeap_Item item) {
-		
-		return 0;
+		DHeap_Item parent = getItemParent(item);
+		int cnt = 1;
+		while(item.getPos()!=0 && item.getKey()<parent.getKey()) {
+			switchItems(item,parent);
+			parent = getItemParent(item);
+			cnt++;
+		}
+		return cnt;
 	}
 
 	/**
@@ -233,7 +306,15 @@ public class DHeap
 	 * heapifyDown(minSon)
 	 */
 	public int heapifyDown(DHeap_Item item) {
-		return 0;
+		DHeap_Item minSon = getMinSon(item);
+		int cnt = 1;
+		while(minSon!=null && item.getKey()>minSon.getKey()) {
+			switchItems(item,minSon);
+			minSon = getMinSon(item);
+			cnt++;
+		}
+		
+		return cnt;
 	}
 
 	/**
