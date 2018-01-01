@@ -26,9 +26,9 @@ public class DHeap
     
     //*****************method for testing only!! delete after done********
     public static DHeap constructTestHeap() {
-		DHeap_Item[] heapArr = new DHeap_Item[1000];
+		DHeap_Item[] heapArr = new DHeap_Item[100];
 		Arrays.fill(heapArr, null);
-		DHeap newHeap = new DHeap(3, 1000);
+		DHeap newHeap = new DHeap(3, 100);
 		int numOfItemsToInsert = 42; //4 full levels
 		
 		for(int i=0; i<numOfItemsToInsert; i++) {
@@ -270,11 +270,15 @@ public class DHeap
     // size--
     // heapifyDown(newItem)
     public int Delete(DHeap_Item item)  {
-    	int pos = item.getPos();
+    	int pos = item.getPos(),
+    		ans = 0;
+    	if(array[pos] == null)
+    		System.out.println();
     	switchItems(item,array[size-1]);
     	remove(array[size-1]);
     	this.size--;
-    	int ans = heapifyDown(array[pos]);
+    	if (size != 0)
+    		ans += heapifyDown(array[pos]);
 	return ans;
     }
     
@@ -295,9 +299,21 @@ public class DHeap
 	*/
     
 	public static int DHeapSort(int[] array1, int d) {
+		DHeap heap = new DHeap(d, array1.length);
+		int i =0;
+		for(int x : array1)
+			heap.Insert(new DHeap_Item(x+"", x));
+		while(heap.Get_Min() != null) {
+			array1[i] = heap.Get_Min().getKey();
+			heap.Delete_Min();
+			i++;
+		}
+			
+			
+		
 		return 0;
 	}
-	
+
 	/**
 	 * compare with parent (if exists)
 	 * if needed switch places
