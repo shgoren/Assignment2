@@ -107,7 +107,11 @@ public class DHeap
 	*/
     public int arrayToHeap(DHeap_Item[] array1) {
     	int ans = 0;
-    	this.array = array1;
+    	Arrays.fill(this.array, null);
+    	for(int i=0;i<array1.length;i++) {
+    		this.array[i] = array1[i];
+    	}
+    	
     	this.size = array1.length;
     	DHeap_Item startingItem = getItemParent(this.getItem(size-1));
     	int i = startingItem.getPos();
