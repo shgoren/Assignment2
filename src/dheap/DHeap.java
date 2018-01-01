@@ -106,13 +106,17 @@ public class DHeap
 	 * assumptions - array1 has no nulls (size = array1.length). don't know if maxSize should be changed if.
 	*/
     public int arrayToHeap(DHeap_Item[] array1) {
-    	int ans = 0;
+    	int ans = 0,
+    		newSize = 0;
+    	
     	Arrays.fill(this.array, null);
     	for(int i=0;i<array1.length;i++) {
     		this.array[i] = array1[i];
+    		if(array1[i]!=null)
+    			newSize++;
     	}
+    	this.size = newSize;
     	
-    	this.size = array1.length;
     	DHeap_Item startingItem = getItemParent(this.getItem(size-1));
     	int i = startingItem.getPos();
     	while(i>=0) {
@@ -134,15 +138,23 @@ public class DHeap
     // loop over array and check if parent<= this heapItem
     // root has no parent
     public boolean isHeap() {
+    	boolean passedFirstNullNode = false;
     	if(this.size<2)
     		return true;
     	for(int i=1;i<this.size;i++) {
     		DHeap_Item curr = this.getItem(i);
     		DHeap_Item currDad = getItemParent(curr);
-    		System.out.println(i);
+    		System.out.println(i); // *********** Test only **************
     		if(curr.getKey()<currDad.getKey()) {
+    			// *********** Test only **************
     			System.out.println("dad - " + currDad.getKey() + " son - " + curr.getKey());
-    			return false;}
+    			return false;
+    		}
+    		// check if the heap has holes
+    		if(passedFirstNullNode && curr!=null)
+    			return false;
+    		passedFirstNullNode = curr == null;
+    		
     	}
         return true; 
     }
