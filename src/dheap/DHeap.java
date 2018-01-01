@@ -26,9 +26,9 @@ public class DHeap
     
     //*****************method for testing only!! delete after done********
     public static DHeap constructTestHeap() {
-		DHeap_Item[] heapArr = new DHeap_Item[100];
+		DHeap_Item[] heapArr = new DHeap_Item[1000];
 		Arrays.fill(heapArr, null);
-		DHeap newHeap = new DHeap(3, 100);
+		DHeap newHeap = new DHeap(3, 1000);
 		int numOfItemsToInsert = 42; //4 full levels
 		
 		for(int i=0; i<numOfItemsToInsert; i++) {
@@ -47,9 +47,9 @@ public class DHeap
     
     
     public static DHeap constructBadHeap() {
-		DHeap_Item[] heapArr = new DHeap_Item[42];
+		DHeap_Item[] heapArr = new DHeap_Item[100];
 		Arrays.fill(heapArr, null);
-		DHeap newHeap = new DHeap(3, 42);
+		DHeap newHeap = new DHeap(3, 100);
 		int numOfItemsToInsert = 42; //4 full levels
 		
 		for(int i=0; i<numOfItemsToInsert; i++) {
@@ -57,7 +57,7 @@ public class DHeap
 			heapArr[i].setPos(i);
 		}
 		newHeap.array = heapArr;
-		newHeap.size = numOfItemsToInsert-1;
+		newHeap.size = numOfItemsToInsert;
 	return newHeap;
 }
 
@@ -111,9 +111,11 @@ public class DHeap
     	
     	Arrays.fill(this.array, null);
     	for(int i=0;i<array1.length;i++) {
-    		this.array[i] = array1[i];
-    		if(array1[i]!=null)
-    			newSize++;
+    		if(array1[i]==null)
+    			continue;
+    		this.array[newSize] = array1[i];
+    		array[i].setPos(newSize);
+    		newSize++;
     	}
     	this.size = newSize;
     	
@@ -144,17 +146,13 @@ public class DHeap
     	for(int i=1;i<this.size;i++) {
     		DHeap_Item curr = this.getItem(i);
     		DHeap_Item currDad = getItemParent(curr);
-    		System.out.println(i); // *********** Test only **************
     		if(curr.getKey()<currDad.getKey()) {
-    			// *********** Test only **************
-    			System.out.println("dad - " + currDad.getKey() + " son - " + curr.getKey());
     			return false;
     		}
     		// check if the heap has holes
     		if(passedFirstNullNode && curr!=null)
     			return false;
     		passedFirstNullNode = curr == null;
-    		
     	}
         return true; 
     }
@@ -370,7 +368,7 @@ public class DHeap
 	 * return null if out of bounds
 	 */
 	public DHeap_Item getItemChild(DHeap_Item item, int k) {
-		if(child(item.getPos(),k,d) > max_size)
+		if(child(item.getPos(),k,d) >= max_size)
 			return null;
 		return array[child(item.getPos(),k,d)];
 	}

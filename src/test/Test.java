@@ -7,12 +7,13 @@ public class Test {
 
 	public static void main(String[] args) {
 		DHeap heap = DHeap.constructBadHeap();
+		DHeap heap2 = DHeap.constructTestHeap();
 		System.out.println(heap.toString());
 		System.out.println(heap.getItemParent(heap.getItem(heap.getSize()-1)).getKey());
-		heap.isHeap();
-		heap.arrayToHeap(heap.getArray());
-		System.out.println(heap.toString());
-		heap.isHeap();
+		System.out.println(heap.isHeap());
+		heap2.arrayToHeap(heap.getArray());
+		System.out.println(heap2.toString());
+		System.out.println(heap2.isHeap());
 		
 		/**DHeap_Item item = heap.Get_Min();
 		System.out.println(heap.Delete_Min());
