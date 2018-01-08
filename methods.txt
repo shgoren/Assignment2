@@ -1,0 +1,9 @@
+public DHeap_Item[] getArray() {
+	return this.array;
+}
+
+
+public String toString() {
+	String res = "{Key = " + this.getKey() + " ; Pos = " + this.getPos() + "}";
+	return res;
+}

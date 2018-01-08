@@ -16,7 +16,7 @@ public class DHeap
 
 	// Constructor
 	// m_d >= 2, m_size > 0
-    DHeap(int m_d, int m_size) {
+    public DHeap(int m_d, int m_size) {
                max_size = m_size;
 			   d = m_d;
                array = new DHeap_Item[max_size];
@@ -24,50 +24,14 @@ public class DHeap
                size = 0;
     }
     
-    //*****************method for testing only!! delete after done********
-    public static DHeap constructTestHeap() {
-		DHeap_Item[] heapArr = new DHeap_Item[100];
-		Arrays.fill(heapArr, null);
-		DHeap newHeap = new DHeap(3, 100);
-		int numOfItemsToInsert = 42; //4 full levels
-		
-		for(int i=0; i<numOfItemsToInsert; i++) {
-			heapArr[i] = new DHeap_Item(i+"",i);
-			heapArr[i].setPos(i);
-		}
-		newHeap.array = heapArr;
-		newHeap.size = numOfItemsToInsert;
-	return newHeap;
-}
-    
-    //*****************method for testing only!! delete after done********
     public DHeap_Item[] getArray() {
     	return this.array;
     }
     
-    
-    public static DHeap constructBadHeap() {
-		DHeap_Item[] heapArr = new DHeap_Item[100];
-		Arrays.fill(heapArr, null);
-		DHeap newHeap = new DHeap(3, 100);
-		int numOfItemsToInsert = 42; //4 full levels
-		
-		for(int i=0; i<numOfItemsToInsert; i++) {
-			heapArr[i] = new DHeap_Item("a",100-i);
-			heapArr[i].setPos(i);
-		}
-		newHeap.array = heapArr;
-		newHeap.size = numOfItemsToInsert;
-	return newHeap;
-}
-
-    //*****************method for testing only!! delete after done********
     public DHeap_Item getItem(int i) {
     	return array[i];
     }
     
- 
-    //*****************method for testing only!! delete after done********
     public String toString(){
     	String ans = "";
     	for(DHeap_Item item : this.array) {
@@ -80,7 +44,6 @@ public class DHeap
     	return ans;
     }
     
-	
 	/**
 	 * public int getSize()
 	 * Returns the number of elements in the heap.
@@ -301,17 +264,24 @@ public class DHeap
 	public static int DHeapSort(int[] array1, int d) {
 		DHeap heap = new DHeap(d, array1.length);
 		int i =0;
-		for(int x : array1)
-			heap.Insert(new DHeap_Item(x+"", x));
+		int counter = 0;
+		counter += heap.arrayToHeap(convertIntArrayToItemsArray(array1));
 		while(heap.Get_Min() != null) {
 			array1[i] = heap.Get_Min().getKey();
-			heap.Delete_Min();
+			counter += heap.Delete_Min();
 			i++;
 		}
-			
-			
 		
-		return 0;
+		return counter;
+	}
+	
+	public static DHeap_Item[] convertIntArrayToItemsArray(int[] intArray) {
+		DHeap_Item[] itemsArray = new DHeap_Item[intArray.length];
+		for (int i=0; i<intArray.length; i++) {
+			DHeap_Item item = new DHeap_Item("", intArray[i]);
+			itemsArray[i] = item;
+		}
+		return itemsArray;
 	}
 
 	/**
@@ -336,14 +306,14 @@ public class DHeap
 	 * heapifyDown(minSon)
 	 */
 	public int heapifyDown(DHeap_Item item) {
-		DHeap_Item minSon = getMinSon(item);
-		int cnt = 1;
+		DHeap_Item minSon = (DHeap_Item)getMinSon(item)[0];
+		int cnt = (Integer)getMinSon(item)[1]+1;
 		while(minSon!=null && item.getKey()>minSon.getKey()) {
 			switchItems(item,minSon);
-			minSon = getMinSon(item);
-			cnt++;
+			minSon = (DHeap_Item)getMinSon(item)[0];
+			if(minSon!=null)
+				cnt+= (Integer)getMinSon(item)[1] +1;
 		}
-		
 		return cnt;
 	}
 
@@ -366,16 +336,22 @@ public class DHeap
 	 * loop over sons to find minimal using getItemChild(dad,k)
 	 * makes d comparisons
 	 */
-	public DHeap_Item getMinSon(DHeap_Item dad) {
+	public Object[] getMinSon(DHeap_Item dad) {
 		DHeap_Item son = getItemChild(dad,1),
 				   minSon = son;
+		int counter = 0;
+		Object[] retTuple = new Object[2];
 		for (int i=2; i<=d; i++) {
 			son = getItemChild(dad ,i);
-				if(son != null && minSon != null)
+				if(son != null && minSon != null) {
+					counter++;
 					if(son.getKey() < minSon.getKey())
 						minSon = son;
+				}
 		}
-		return minSon;
+		retTuple[0] = minSon;
+		retTuple[1] = counter;
+		return retTuple;
 	}
 
 	/**
