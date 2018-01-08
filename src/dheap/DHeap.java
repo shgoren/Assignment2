@@ -116,6 +116,8 @@ public class DHeap
     		if(passedFirstNullNode && curr!=null)
     			return false;
     		passedFirstNullNode = curr == null;
+    		
+    		
     	}
         return true; 
     }
