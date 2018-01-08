@@ -103,7 +103,6 @@ public class DHeap
     // loop over array and check if parent<= this heapItem
     // root has no parent
     public boolean isHeap() {
-    	boolean passedFirstNullNode = false;
     	if(this.size<2)
     		return true;
     	for(int i=1;i<this.size;i++) {
@@ -112,10 +111,6 @@ public class DHeap
     		if(curr.getKey()<currDad.getKey()) {
     			return false;
     		}
-    		// check if the heap has holes
-    		if(passedFirstNullNode && curr!=null)
-    			return false;
-    		passedFirstNullNode = curr == null;
     		
     		
     	}
