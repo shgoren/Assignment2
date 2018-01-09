@@ -110,9 +110,7 @@ public class DHeap
     		DHeap_Item currDad = getItemParent(curr);
     		if(curr.getKey()<currDad.getKey()) {
     			return false;
-    		}
-    		
-    		
+    		}	
     	}
         return true; 
     }

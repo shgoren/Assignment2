@@ -138,35 +138,32 @@ public class Test {
 		
 		
 		System.out.println("\n-----------------------------------measurments---------------\n");
+		int count = 0;
 		
+		for(int m =1000; m<=100000; m=m*10) {
+			for(d =2; d<5; d++) {
+				count = 0;
+				for(int i=0; i<10; i++) {
+					count += makeMeasures(d, m);
+				}
+				System.out.println("**********  D = "+d+" ; M = "+m+" **********");
+				System.out.println("counter is: " + count/10);
+				System.out.println("****************************************");
+			}
+		}
+		int[] deltas = {1,100,1000};
 		
-		System.out.println("**********  D = 2 ; M = 1000  **********");
-		System.out.println("counter is: " + makeMeasures(2, 1000));
-		System.out.println("****************************************");
-		System.out.println("**********  D = 2 ; M = 10000  **********");
-		System.out.println("counter is: " + makeMeasures(2, 10000));
-		System.out.println("****************************************");
-		System.out.println("**********  D = 2 ; M = 100000  **********");
-		System.out.println("counter is: " + makeMeasures(2, 100000));
-		System.out.println("****************************************");
-		System.out.println("**********  D = 3 ; M = 1000  **********");
-		System.out.println("counter is: " + makeMeasures(3, 1000));
-		System.out.println("****************************************");
-		System.out.println("**********  D = 3 ; M = 10000  **********");
-		System.out.println("counter is: " + makeMeasures(3, 10000));
-		System.out.println("****************************************");
-		System.out.println("**********  D = 3 ; M = 100000  **********");
-		System.out.println("counter is: " + makeMeasures(3, 100000));
-		System.out.println("****************************************");
-		System.out.println("**********  D = 4 ; M = 1000  **********");
-		System.out.println("counter is: " + makeMeasures(4, 1000));
-		System.out.println("****************************************");
-		System.out.println("**********  D = 4 ; M = 10000  **********");
-		System.out.println("counter is: " + makeMeasures(4, 10000));
-		System.out.println("****************************************");
-		System.out.println("**********  D = 4 ; M = 100000  **********");
-		System.out.println("counter is: " + makeMeasures(4, 100000));
-		System.out.println("****************************************");
+		for(int x : deltas) {
+			for(d =2; d<5; d++) {
+				count = 0;
+				for(int i=0; i<10; i++) {
+					count += makeMeasures2(d, x);
+				}
+				System.out.println("**********  D = "+d+" ; X = "+x+" **********");
+				System.out.println("counter is: " + count/10);
+				System.out.println("****************************************");
+			}
+		}
 		
 	}
 		
@@ -184,10 +181,7 @@ public class Test {
 		//at this point array1.equals(array2) == true;
 		//System.out.println("1 equals 2: " + Arrays.equals(intArray1, intArray1));
 		heap.arrayToHeap(DHeap.convertIntArrayToItemsArray(intArray1));
-		
-		Arrays.sort(intArray2);
 		counter = DHeap.DHeapSort(intArray1, d);
-		System.out.println("is sorted: " + Arrays.equals(intArray1, intArray2));
 		return counter;
 	}
 
@@ -196,11 +190,29 @@ public class Test {
 			//m is the size of the array; m = {1000, 10000, 100000}
 			int[] result = new int[m];
 			Random randomGenerator = new Random();
-			for (int i=0; i<m; i++) {result[i] = randomGenerator.nextInt(20);}
+			for (int i=0; i<m; i++) {result[i] = randomGenerator.nextInt(1000);}
 			return result;
 		}
 	
-		
+		public static int makeMeasures2(int d, int x) {
+			int counter = 0;
+			DHeap heap = new DHeap(d, 100000);
+			DHeap_Item[] itemArray1 = new DHeap_Item[100000];
+			Random randomGenerator = new Random();
+			DHeap_Item newItem;
+			
+			for (int i=0; i<100000; i++) {
+				int tmp = randomGenerator.nextInt(1000);
+				newItem = new DHeap_Item("", tmp);
+				heap.Insert(newItem);
+				itemArray1[i] = newItem;
+			}
+			
+			for (int i=0; i<100000; i++)
+				counter += heap.Decrease_Key(itemArray1[i], x);
+			
+			return counter;
+		}
 		
 
 }
