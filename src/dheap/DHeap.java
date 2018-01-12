@@ -230,8 +230,6 @@ public class DHeap
     public int Delete(DHeap_Item item)  {
     	int pos = item.getPos(),
     		ans = 0;
-    	if(array[pos] == null)
-    		System.out.println();
     	switchItems(item,array[size-1]);
     	remove(array[size-1]);
     	this.size--;
