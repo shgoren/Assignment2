@@ -23,25 +23,13 @@ public class DHeap
                Arrays.fill(array, null);
                size = 0;
     }
-    
+    // O(1)
     public DHeap_Item[] getArray() {
     	return this.array;
     }
-    
+    //  O(1)
     public DHeap_Item getItem(int i) {
     	return array[i];
-    }
-    
-    public String toString(){
-    	String ans = "";
-    	for(DHeap_Item item : this.array) {
-    		if(item==null)
-    			ans+="x ";
-    		else {
-    			ans=ans+item.getKey()+" ";
-    		}
-    	}
-    	return ans;
     }
     
 	/**
