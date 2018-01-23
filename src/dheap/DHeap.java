@@ -114,7 +114,7 @@ public class DHeap
      * vertex i in a complete D-ary tree stored in an array.
      * Note that indices of arrays in Java start from 0.
      */
-    // floor(i/d)
+    // floor(i-1/d)
     public static int parent(int i, int d) {
     	if(i==0)
     		return 0;
